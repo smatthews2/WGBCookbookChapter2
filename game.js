@@ -32,8 +32,9 @@ game.things = (function(){
         var sourceContext = itemNode.parentElement.parentElement.id;
         if(sourceContext !== target){
             var item = itemNode.firstChild.id;
+            console.log(item)
             var itemObject = this.get(item);
-
+            
             if(target === "player_inventory"){
                 var effects = itemObject.effects[target];
             }else if(game.slide.getInventory(target)){
@@ -49,7 +50,8 @@ game.things = (function(){
                 }else{
                     targetObject = game.slide;
                 }
-                targetObject.effects[effects.object](itemObject);
+
+                targetObject[effects.object](itemObject);
             }
             if(!!effects.subject === true){
                 if(sourceContext === "player_inventory"){
@@ -57,7 +59,7 @@ game.things = (function(){
                 }else{
                     var sourceObject = game.slide;
                 }
-                sourceObject.effects[effects.subject](itemObject);
+                sourceObject[effects.subject](itemObject);
             }
             if(!!effects.message === true){
                 game.slide.setText(effects.message);
@@ -77,13 +79,13 @@ game.slide = (function(){
     slide1: 'bat',
     slide2: 'dino',
     slide3: null
-  };
+  }
   var addItem = function(item){
     inventory[game.slide.currentSlide()] = item.name;
-  };
+  }
   var deleteItem = function(item){
     inventory[game.slide.currentSlide()] = null;
-  };
+  }
   var findTextNode = function(slideId){
     return document.querySelector("#" + slideId + " .slide-text .event-text");
   };
@@ -176,4 +178,4 @@ game.screen = (function(){
     return{
         draw: draw
     }
-})
+})();
