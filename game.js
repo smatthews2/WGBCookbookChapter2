@@ -8,7 +8,9 @@ game.things = (function(){
                                      subject: "deleteItem"
                 },
                 "dino": {message: "<p>You hit the dino with the bat.<br>Now he's angry.</p>",
-                         subject: "deleteItem"
+                         object: "deleteItem",     
+                         subject: "deleteItem",
+                         callback: function(){game.screen.callDino()}
                 },
                 "empty": {message: "<p>You set the bat down over there.</p>",
                           object: "addItem",
@@ -63,6 +65,9 @@ game.things = (function(){
             }
             if(!!effects.message === true){
                 game.slide.setText(effects.message);
+            }
+            if(!!effects.callback === true){
+                effects.callback();
             }
             game.screen.draw();
         }
@@ -175,7 +180,11 @@ game.screen = (function(){
         game.playerInventory.draw();
         game.slide.draw(game.slide.currentSlide());
     };
+    var callDino = function(){
+      $("body").raptorize({"enteron": "timer", "delayTime": 2000});
+    }
     return{
+        callDino: callDino,
         draw: draw
     }
 })();
